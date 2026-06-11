@@ -76,10 +76,10 @@ Unassigned
 |---|---|---|---|---|---|---|---|
 | BE-PROD-01A | Implement Product DTOs | api | API_SPEC.md, DATA_MODEL.md | BE-DB-06 | DTO validates productType, status, material, price fields | DONE | Backend Agent |
 | BE-PROD-01B | Implement strict `specsJson` validation | api | API_SPEC.md, DATA_MODEL.md | BE-PROD-01A | Invalid specs return 400 `INVALID_PRODUCT_SPECS`; nested unknown objects rejected | DONE | Backend Agent |
-| BE-PROD-01C | Implement ProductsRepository | api | ARCHITECTURE.md | BE-PROD-01B | Repository contains DB access only | TODO | Backend Agent |
-| BE-PROD-01D | Implement ProductsService | api | ARCHITECTURE.md | BE-PROD-01C | Public only returns published products; slug conflict returns `SLUG_ALREADY_EXISTS` | TODO | Backend Agent |
-| BE-PROD-01E | Implement public products controller | api | API_SPEC.md, openapi.yaml | BE-PROD-01D | `GET /api/v1/products` and `GET /api/v1/products/:slug` work | TODO | Backend Agent |
-| BE-PROD-01F | Implement admin products controller | api | API_SPEC.md, openapi.yaml | BE-PROD-01D | Admin create/PATCH/archive product works and validates DTOs | TODO | Backend Agent |
+| BE-PROD-01C | Implement ProductsRepository | api | ARCHITECTURE.md | BE-PROD-01B | Repository contains DB access only | DONE | Backend Agent |
+| BE-PROD-01D | Implement ProductsService | api | ARCHITECTURE.md | BE-PROD-01C | Public only returns published products; slug conflict returns `SLUG_ALREADY_EXISTS` | DONE | Backend Agent |
+| BE-PROD-01E | Implement public products controller | api | API_SPEC.md, openapi.yaml | BE-PROD-01D | `GET /api/v1/products` and `GET /api/v1/products/:slug` work | DONE | Backend Agent |
+| BE-PROD-01F | Implement admin products controller | api | API_SPEC.md, openapi.yaml | BE-PROD-01D | Admin create/PATCH/archive product works and validates DTOs | DONE | Backend Agent |
 | BE-CAT-01A | Implement Category DTOs | api | API_SPEC.md, openapi.yaml | BE-DB-06 | Create/update category DTOs validate name, slug, sortOrder, isActive | DONE | Backend Agent |
 | BE-CAT-01B | Implement CategoriesRepository/Service | api | DATA_MODEL.md | BE-CAT-01A | Active categories returned publicly; admin can manage all categories | DONE | Backend Agent |
 | BE-CAT-01C | Implement public/admin category controllers | api | API_SPEC.md, openapi.yaml | BE-CAT-01B | Public GET categories and admin CRUD endpoints work | DONE | Backend Agent |
