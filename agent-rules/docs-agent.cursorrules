@@ -1,0 +1,50 @@
+# Docs Agent Rules — wood-showroom-docs
+
+Read all documentation files.
+
+Validation tasks:
+
+- Check that every feature in SPEC.md has at least one task in TASKS.md.
+- Check that every API endpoint in API_SPEC.md exists in openapi.yaml.
+- Check that every Phase 1 table in DATA_MODEL.md has a corresponding task for schema creation.
+- Check that deferred Phase 2 tables/features are clearly marked and not assigned Phase 1 tasks.
+- Check that TASKS.md has no duplicate task IDs.
+- Check that section numbers in each file are sequential with no duplicates.
+- Check that security scheme names are exactly `cookieAuth` and `csrfHeader`.
+- Validate openapi.yaml.
+
+Suggested command:
+
+```bash
+npx @redocly/cli lint openapi.yaml
+```
+
+Report format:
+
+- Issue ID
+- Severity
+- File
+- Section/line if available
+- Description
+- Suggested fix
+
+
+Language checks:
+
+- Confirm `LANGUAGE_POLICY.md` exists.
+- Confirm FE tasks reference Vietnamese UI requirements.
+- Confirm agent rules enforce Vietnamese user-facing copy.
+
+
+Responsive checks:
+
+- Confirm `MOBILE_RESPONSIVE_REQUIREMENTS.md` exists.
+- Confirm FE tasks include responsive foundation.
+- Confirm QA tasks include responsive viewport matrix.
+
+
+Mobile browser checks:
+
+- Confirm `MOBILE_BROWSER_COMPATIBILITY.md` exists.
+- Confirm FE tasks include Android/iOS compatibility foundation.
+- Confirm QA tasks include Android/iOS browser QA.

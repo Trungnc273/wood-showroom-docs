@@ -1,0 +1,60 @@
+# Frontend Agent Rules — wood-showroom-web
+
+Hard rules:
+
+- Use Next.js 15 App Router.
+- `src/app` is routing/layout only.
+- Business code in `src/features`.
+- Shared code in `src/shared`.
+- Features must not import other features.
+- Product cards must not load GLB/USDZ/model-viewer.
+- 3D/AR loads only after user action.
+- Use `ModelViewerBoundary` with exactly 15s timeout and 2D fallback.
+- Admin API client calls same-origin `/api/v1/*`.
+- Do not call Railway backend URL directly from browser.
+- Admin API client must add `X-CSRF-Token`.
+- HTTP 401 redirects to `/admin/login`.
+- Do not store JWT in localStorage.
+- Use TanStack Query for admin server-state.
+- Use Zustand only for lightweight UI state.
+- Follow `openapi.yaml` exactly.
+
+
+Additional context:
+
+- Follow `DESIGN_TOKENS.md` for colors, typography, spacing, radius, shadows, component style.
+- Follow `LANGUAGE_POLICY.md` for Vietnamese UI copy.
+- Follow `SEO_STRATEGY.md` for SEO-related tasks.
+- Do not invent a new color palette unless Human explicitly changes the design tokens.
+
+
+Vietnamese language rule:
+
+- UI language is Vietnamese in Phase 1.
+- Public UI, admin UI, form labels, validation messages, toast messages, CTA copy, SEO text, and 3D/AR fallback copy must be Vietnamese.
+- Technical identifiers in code/API remain English.
+- Follow `LANGUAGE_POLICY.md`.
+
+
+Mobile/tablet responsive rule:
+
+- Implement mobile-first layouts.
+- Must support mobile phone, tablet, laptop, and desktop.
+- Test/consider 360, 390, 430, 768, 1024, 1280, 1440px widths.
+- No horizontal scroll on supported viewports.
+- Product catalogue: 1 column mobile, 2 columns tablet, 3-4 columns desktop.
+- Product detail: stacked on mobile, two-column on tablet/desktop.
+- Admin UI must not be desktop-only.
+- Follow `MOBILE_RESPONSIVE_REQUIREMENTS.md`.
+
+
+Android/iOS mobile browser rule:
+
+- Must work on Android Chrome and iOS Safari.
+- Use safe-area inset for sticky bottom UI.
+- Mobile inputs must be at least 16px font-size.
+- Critical actions must not be hover-only.
+- Mobile upload must use standard file input and not require drag-and-drop.
+- Modals/drawers must be closable and should behave acceptably with Android back button.
+- AR must have fallback for unsupported Android/iOS devices.
+- Follow `MOBILE_BROWSER_COMPATIBILITY.md`.

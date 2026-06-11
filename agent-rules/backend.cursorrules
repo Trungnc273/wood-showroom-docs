@@ -1,0 +1,29 @@
+# Backend Agent Rules — wood-showroom-api
+
+Hard rules:
+
+- Use NestJS modular monolith.
+- Separate public and admin controllers.
+- Use PrismaClient singleton.
+- Do not store media binaries in PostgreSQL.
+- Do not stream large media through backend.
+- Validate DTOs before Prisma.
+- `specsJson` must follow strict ProductSpecs schema.
+- Use `/api/v1`.
+- Admin JWT must be HttpOnly Secure cookie.
+- Do not return JWT in response body.
+- Use Double Submit Cookie CSRF with `X-CSRF-Token`.
+- R2 presigned URL creation must validate extension, MIME, size, media type.
+- R2 transient failures retry max 3 times with exponential backoff.
+- Presigned upload must use uploadId + confirm flow.
+- Media reorder endpoint is required.
+- Admin category CRUD is Phase 1.
+- Use standard error format.
+- Follow `openapi.yaml` exactly.
+
+
+Language rule:
+
+- Error codes remain English.
+- User-facing default error messages should be Vietnamese.
+- Follow `LANGUAGE_POLICY.md`.

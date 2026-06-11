@@ -1,0 +1,43 @@
+# Review Agent Rules
+
+Block merge if:
+
+- Feature imports another feature.
+- Product cards load GLB/USDZ/model-viewer.
+- 3D has no 15s timeout/fallback.
+- Admin JWT is stored in localStorage.
+- Admin mutations lack CSRF header/validation.
+- Backend accepts arbitrary `specsJson`.
+- Media upload bypasses pre-upload/backend validation.
+- R2 upload has no confirm flow.
+- Media reorder is missing.
+- API path lacks `/api/v1`.
+- API diverges from `openapi.yaml`.
+- Prisma schema changed without migration.
+- Product color/site_settings tables are added in Phase 1 without re-scope.
+
+
+Also block merge if:
+
+- English UI copy appears in public/admin UI without Human approval.
+- Validation/toast/fallback messages are not Vietnamese.
+- SEO metadata defaults are English.
+
+
+Also block merge if:
+
+- Mobile/tablet layout is broken.
+- Horizontal scroll appears at 360/390/430/768/1024px.
+- Admin UI is desktop-only.
+- Product detail CTA is not reachable on mobile.
+- Responsive requirements in `MOBILE_RESPONSIVE_REQUIREMENTS.md` are ignored.
+
+
+Also block merge if:
+
+- Android/iOS mobile browser rules are ignored.
+- iOS input zoom issue appears due to small input font.
+- Sticky bottom CTA ignores iPhone safe area.
+- Mobile upload requires drag-and-drop.
+- Critical action is hover-only.
+- AR has no iOS/Android fallback.

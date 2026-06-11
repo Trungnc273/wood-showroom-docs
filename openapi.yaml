@@ -1,0 +1,1445 @@
+openapi: 3.0.3
+info:
+  title: Wood Showroom 3D/AR API
+  version: 1.0.0
+  description: API contract for Wood Showroom 3D/AR Phase 1.
+servers:
+  - url: https://example.com/api/v1
+    description: Same-origin frontend proxy path in staging/production
+  - url: http://localhost:3000/api/v1
+    description: Local frontend proxy
+  - url: http://localhost:3001/api/v1
+    description: Local backend direct API for backend development only
+
+tags:
+  - name: Public Products
+  - name: Public Categories
+  - name: Public Inquiries
+  - name: Admin Auth
+  - name: Admin Categories
+  - name: Admin Products
+  - name: Admin Media
+  - name: Admin Inquiries
+
+paths:
+  /products:
+    get:
+      tags: [Public Products]
+      summary: List published products
+      operationId: listProducts
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Limit'
+        - in: query
+          name: type
+          schema:
+            $ref: '#/components/schemas/ProductType'
+        - in: query
+          name: category
+          schema:
+            type: string
+        - in: query
+          name: search
+          schema:
+            type: string
+            maxLength: 120
+        - in: query
+          name: has3d
+          schema:
+            type: boolean
+        - in: query
+          name: hasar
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Product list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+  /products/{slug}:
+    get:
+      tags: [Public Products]
+      summary: Get published product detail by slug
+      operationId: getProductBySlug
+      security: []
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema:
+            $ref: '#/components/schemas/Slug'
+      responses:
+        '200':
+          description: Product detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetailResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+  /categories:
+    get:
+      tags: [Public Categories]
+      summary: List active categories
+      operationId: listCategories
+      security: []
+      responses:
+        '200':
+          description: Category list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryListResponse'
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+  /contact-inquiries:
+    post:
+      tags: [Public Inquiries]
+      summary: Create contact inquiry
+      operationId: createContactInquiry
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInquiryRequest'
+      responses:
+        '201':
+          description: Inquiry created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InquiryResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+  /admin/auth/csrf:
+    get:
+      tags: [Admin Auth]
+      summary: Get or refresh CSRF token cookie
+      operationId: getCsrfToken
+      security: []
+      responses:
+        '204':
+          description: CSRF cookie has been set or refreshed
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+  /admin/auth/login:
+    post:
+      tags: [Admin Auth]
+      summary: Admin login
+      operationId: adminLogin
+      security:
+        - csrfHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminLoginRequest'
+      responses:
+        '200':
+          description: Login success. Admin JWT is set in HttpOnly cookie.
+          headers:
+            Set-Cookie:
+              description: admin_session HttpOnly cookie and csrf-token readable cookie
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminUserResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+  /admin/auth/me:
+    get:
+      tags: [Admin Auth]
+      summary: Get current authenticated admin user
+      operationId: adminGetCurrentUser
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Current admin user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminUserResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+  /admin/auth/logout:
+    post:
+      tags: [Admin Auth]
+      summary: Admin logout
+      operationId: adminLogout
+      security:
+        - cookieAuth: []
+          csrfHeader: []
+      responses:
+        '204':
+          description: Logged out and auth cookie cleared
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+  /admin/categories:
+    get:
+      tags: [Admin Categories]
+      summary: Admin list categories
+      operationId: adminListCategories
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Category list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    post:
+      tags: [Admin Categories]
+      summary: Create category
+      operationId: adminCreateCategory
+      security:
+        - cookieAuth: []
+          csrfHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategoryRequest'
+      responses:
+        '201':
+          description: Category created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+  /admin/categories/{id}:
+    patch:
+      tags: [Admin Categories]
+      summary: Update category
+      operationId: adminUpdateCategory
+      security:
+        - cookieAuth: []
+          csrfHeader: []
+      parameters:
+        - $ref: '#/components/parameters/UuidId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCategoryRequest'
+      responses:
+        '200':
+          description: Category updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    delete:
+      tags: [Admin Categories]
+      summary: Deactivate category
+      operationId: adminDeactivateCategory
+      security:
+        - cookieAuth: []
+          csrfHeader: []
+      parameters:
+        - $ref: '#/components/parameters/UuidId'
+      responses:
+        '204':
+          description: Category deactivated
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+  /admin/products:
+    get:
+      tags: [Admin Products]
+      summary: Admin list products
+      operationId: adminListProducts
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/AdminLimit'
+        - in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/ProductStatus'
+        - in: query
+          name: type
+          schema:
+            $ref: '#/components/schemas/ProductType'
+        - in: query
+          name: search
+          schema:
+            type: string
+            maxLength: 120
+      responses:
+        '200':
+          description: Admin product list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    post:
+      tags: [Admin Products]
+      summary: Create product
+      operationId: adminCreateProduct
+      security:
+        - cookieAuth: []
+          csrfHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductRequest'
+      responses:
+        '201':
+          description: Product created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetailResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+  /admin/products/{id}:
+    get:
+      tags: [Admin Products]
+      summary: Admin get product by id
+      operationId: adminGetProductById
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UuidId'
+      responses:
+        '200':
+          description: Product detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetailResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    patch:
+      tags: [Admin Products]
+      summary: Partially update product
+      operationId: adminPatchProduct
+      security:
+        - cookieAuth: []
+          csrfHeader: []
+      parameters:
+        - $ref: '#/components/parameters/UuidId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductRequest'
+      responses:
+        '200':
+          description: Product updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetailResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    delete:
+      tags: [Admin Products]
+      summary: Archive product
+      operationId: adminArchiveProduct
+      security:
+        - cookieAuth: []
+          csrfHeader: []
+      parameters:
+        - $ref: '#/components/parameters/UuidId'
+      responses:
+        '204':
+          description: Product archived
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+  /admin/media/presigned-upload:
+    post:
+      tags: [Admin Media]
+      summary: Create presigned upload URL
+      operationId: createPresignedUpload
+      security:
+        - cookieAuth: []
+          csrfHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PresignedUploadRequest'
+      responses:
+        '200':
+          description: Upload URL created. Upload is pending until confirmed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PresignedUploadResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '413':
+          $ref: '#/components/responses/FileTooLarge'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/StorageUnavailable'
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+  /admin/media/confirm:
+    post:
+      tags: [Admin Media]
+      summary: Confirm media upload and create product media metadata
+      operationId: confirmMediaUpload
+      security:
+        - cookieAuth: []
+          csrfHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmMediaUploadRequest'
+      responses:
+        '201':
+          description: Media confirmed and metadata created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+  /admin/products/{id}/media/reorder:
+    patch:
+      tags: [Admin Media]
+      summary: Reorder product media
+      operationId: reorderProductMedia
+      security:
+        - cookieAuth: []
+          csrfHeader: []
+      parameters:
+        - $ref: '#/components/parameters/UuidId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReorderMediaRequest'
+      responses:
+        '200':
+          description: Media reordered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaListResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+  /admin/media/{id}:
+    delete:
+      tags: [Admin Media]
+      summary: Delete media metadata and optionally delete R2 object
+      operationId: adminDeleteMedia
+      security:
+        - cookieAuth: []
+          csrfHeader: []
+      parameters:
+        - $ref: '#/components/parameters/UuidId'
+      responses:
+        '204':
+          description: Media deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+  /admin/contact-inquiries:
+    get:
+      tags: [Admin Inquiries]
+      summary: List contact inquiries
+      operationId: adminListContactInquiries
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/AdminLimit'
+        - in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/InquiryStatus'
+      responses:
+        '200':
+          description: Inquiry list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InquiryListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+  /admin/contact-inquiries/{id}/status:
+    patch:
+      tags: [Admin Inquiries]
+      summary: Update inquiry status
+      operationId: adminUpdateInquiryStatus
+      security:
+        - cookieAuth: []
+          csrfHeader: []
+      parameters:
+        - $ref: '#/components/parameters/UuidId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [status]
+              properties:
+                status:
+                  $ref: '#/components/schemas/InquiryStatus'
+      responses:
+        '200':
+          description: Inquiry status updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InquiryResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        default:
+          $ref: '#/components/responses/DefaultError'
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: admin_session
+      description: Admin JWT stored as an HttpOnly Secure cookie.
+    csrfHeader:
+      type: apiKey
+      in: header
+      name: X-CSRF-Token
+      description: Required for state-changing admin requests. Value must match csrf-token cookie under Double Submit Cookie pattern.
+
+  parameters:
+    Page:
+      in: query
+      name: page
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    Limit:
+      in: query
+      name: limit
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
+        default: 12
+    AdminLimit:
+      in: query
+      name: limit
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    UuidId:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    ValidationError:
+      description: Request validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication required or expired
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Request forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Conflict:
+      description: Resource conflict
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            slugConflict:
+              value:
+                error:
+                  code: SLUG_ALREADY_EXISTS
+                  message: Product with this slug already exists
+                  details:
+                    slug: ban-go-soi
+    FileTooLarge:
+      description: Uploaded file is too large
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    UnsupportedMediaType:
+      description: File type or MIME type is unsupported
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimited:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    StorageUnavailable:
+      description: Storage provider is temporarily unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    DefaultError:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: object
+          additionalProperties: true
+          required: [code, message, details]
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+              additionalProperties: true
+
+    Slug:
+      type: string
+      pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+      maxLength: 220
+
+    ProductType:
+      type: string
+      enum: [made_to_order, ready_stock]
+
+    ProductStatus:
+      type: string
+      enum: [draft, published, hidden, archived]
+
+    PriceType:
+      type: string
+      enum: [from, fixed, contact]
+
+    MediaType:
+      type: string
+      enum: [image, thumbnail, video, model_3d, ar_usdz]
+
+    InquiryType:
+      type: string
+      enum: [product_consultation, custom_order, general]
+
+    InquiryStatus:
+      type: string
+      enum: [new, contacted, resolved, spam]
+
+    PageMeta:
+      type: object
+      additionalProperties: false
+      required: [page, limit, total]
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        total:
+          type: integer
+
+    ProductSpecs:
+      type: object
+      additionalProperties: false
+      properties:
+        width_cm:
+          type: number
+          minimum: 0
+          nullable: true
+        height_cm:
+          type: number
+          minimum: 0
+          nullable: true
+        depth_cm:
+          type: number
+          minimum: 0
+          nullable: true
+        seat_height_cm:
+          type: number
+          minimum: 0
+          nullable: true
+        weight_kg:
+          type: number
+          minimum: 0
+          nullable: true
+        finish:
+          type: string
+          maxLength: 120
+          nullable: true
+        color_note:
+          type: string
+          maxLength: 180
+          nullable: true
+
+    Category:
+      type: object
+      additionalProperties: false
+      required: [id, name, slug, sortOrder, isActive]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        slug:
+          $ref: '#/components/schemas/Slug'
+        description:
+          type: string
+          nullable: true
+        sortOrder:
+          type: integer
+        isActive:
+          type: boolean
+
+    CreateCategoryRequest:
+      type: object
+      additionalProperties: false
+      required: [name, slug]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 120
+        slug:
+          $ref: '#/components/schemas/Slug'
+        description:
+          type: string
+          maxLength: 500
+          nullable: true
+        sortOrder:
+          type: integer
+          minimum: 0
+          default: 0
+        isActive:
+          type: boolean
+          default: true
+
+    UpdateCategoryRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 120
+        slug:
+          $ref: '#/components/schemas/Slug'
+        description:
+          type: string
+          maxLength: 500
+          nullable: true
+        sortOrder:
+          type: integer
+          minimum: 0
+        isActive:
+          type: boolean
+
+    CategoryResponse:
+      type: object
+      additionalProperties: false
+      required: [data]
+      properties:
+        data:
+          $ref: '#/components/schemas/Category'
+
+    CategoryListResponse:
+      type: object
+      additionalProperties: false
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+
+    ProductSummary:
+      type: object
+      additionalProperties: false
+      required: [id, name, slug, productType, status, isUnique, isCustomizable, has3D, hasAR]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        slug:
+          $ref: '#/components/schemas/Slug'
+        productType:
+          $ref: '#/components/schemas/ProductType'
+        status:
+          $ref: '#/components/schemas/ProductStatus'
+        categoryId:
+          type: string
+          format: uuid
+          nullable: true
+        category:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/Category'
+          nullable: true
+        material:
+          type: string
+          nullable: true
+        priceType:
+          $ref: '#/components/schemas/PriceType'
+        price:
+          type: number
+          nullable: true
+        priceLabel:
+          type: string
+          nullable: true
+        stockQuantity:
+          type: integer
+          nullable: true
+        isUnique:
+          type: boolean
+        isCustomizable:
+          type: boolean
+        productionLeadTime:
+          type: string
+          nullable: true
+        has3D:
+          type: boolean
+        hasAR:
+          type: boolean
+        thumbnailUrl:
+          type: string
+          nullable: true
+
+    ProductDetail:
+      allOf:
+        - $ref: '#/components/schemas/ProductSummary'
+        - type: object
+          additionalProperties: false
+          properties:
+            shortDescription:
+              type: string
+              nullable: true
+            description:
+              type: string
+              nullable: true
+            specsJson:
+              type: object
+              allOf:
+                - $ref: '#/components/schemas/ProductSpecs'
+              nullable: true
+            media:
+              type: array
+              items:
+                $ref: '#/components/schemas/Media'
+            seoTitle:
+              type: string
+              nullable: true
+            seoDescription:
+              type: string
+              nullable: true
+            createdAt:
+              type: string
+              format: date-time
+              nullable: true
+            updatedAt:
+              type: string
+              format: date-time
+              nullable: true
+            createdBy:
+              type: string
+              format: uuid
+              nullable: true
+
+    ProductListResponse:
+      type: object
+      additionalProperties: false
+      required: [data, meta]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductSummary'
+        meta:
+          $ref: '#/components/schemas/PageMeta'
+
+    ProductDetailResponse:
+      type: object
+      additionalProperties: false
+      required: [data]
+      properties:
+        data:
+          $ref: '#/components/schemas/ProductDetail'
+
+    CreateProductRequest:
+      type: object
+      additionalProperties: false
+      required: [name, slug, productType, status]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 180
+        slug:
+          $ref: '#/components/schemas/Slug'
+        productType:
+          $ref: '#/components/schemas/ProductType'
+        status:
+          $ref: '#/components/schemas/ProductStatus'
+        categoryId:
+          type: string
+          format: uuid
+          nullable: true
+        material:
+          type: string
+          maxLength: 120
+          nullable: true
+        priceType:
+          $ref: '#/components/schemas/PriceType'
+        price:
+          type: number
+          minimum: 0
+          nullable: true
+        priceLabel:
+          type: string
+          maxLength: 120
+          nullable: true
+        stockQuantity:
+          type: integer
+          minimum: 0
+          nullable: true
+        isUnique:
+          type: boolean
+          default: false
+        isCustomizable:
+          type: boolean
+          default: false
+        productionLeadTime:
+          type: string
+          maxLength: 120
+          nullable: true
+        specsJson:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/ProductSpecs'
+          nullable: true
+        shortDescription:
+          type: string
+          maxLength: 500
+          nullable: true
+        description:
+          type: string
+          maxLength: 10000
+          nullable: true
+        seoTitle:
+          type: string
+          maxLength: 180
+          nullable: true
+        seoDescription:
+          type: string
+          maxLength: 300
+          nullable: true
+
+    UpdateProductRequest:
+      type: object
+      additionalProperties: false
+      minProperties: 1
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 180
+        slug:
+          $ref: '#/components/schemas/Slug'
+        productType:
+          $ref: '#/components/schemas/ProductType'
+        status:
+          $ref: '#/components/schemas/ProductStatus'
+        categoryId:
+          type: string
+          format: uuid
+          nullable: true
+        material:
+          type: string
+          maxLength: 120
+          nullable: true
+        priceType:
+          $ref: '#/components/schemas/PriceType'
+        price:
+          type: number
+          minimum: 0
+          nullable: true
+        priceLabel:
+          type: string
+          maxLength: 120
+          nullable: true
+        stockQuantity:
+          type: integer
+          minimum: 0
+          nullable: true
+        isUnique:
+          type: boolean
+        isCustomizable:
+          type: boolean
+        productionLeadTime:
+          type: string
+          maxLength: 120
+          nullable: true
+        specsJson:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/ProductSpecs'
+          nullable: true
+        shortDescription:
+          type: string
+          maxLength: 500
+          nullable: true
+        description:
+          type: string
+          maxLength: 10000
+          nullable: true
+        seoTitle:
+          type: string
+          maxLength: 180
+          nullable: true
+        seoDescription:
+          type: string
+          maxLength: 300
+          nullable: true
+
+    Media:
+      type: object
+      additionalProperties: false
+      required: [id, mediaType, url, storageKey, mimeType, sizeBytes, sortOrder, isPrimary]
+      properties:
+        id:
+          type: string
+          format: uuid
+        mediaType:
+          $ref: '#/components/schemas/MediaType'
+        url:
+          type: string
+        storageKey:
+          type: string
+        thumbnailUrl:
+          type: string
+          nullable: true
+        mimeType:
+          type: string
+        sizeBytes:
+          type: integer
+          minimum: 0
+        width:
+          type: integer
+          nullable: true
+        height:
+          type: integer
+          nullable: true
+        altText:
+          type: string
+          nullable: true
+        sortOrder:
+          type: integer
+        isPrimary:
+          type: boolean
+
+    MediaResponse:
+      type: object
+      additionalProperties: false
+      required: [data]
+      properties:
+        data:
+          $ref: '#/components/schemas/Media'
+
+    MediaListResponse:
+      type: object
+      additionalProperties: false
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+
+    PresignedUploadRequest:
+      type: object
+      additionalProperties: false
+      required: [fileName, mimeType, sizeBytes, mediaType]
+      properties:
+        fileName:
+          type: string
+          maxLength: 255
+        mimeType:
+          type: string
+          maxLength: 120
+        sizeBytes:
+          type: integer
+          minimum: 1
+        mediaType:
+          $ref: '#/components/schemas/MediaType'
+
+    PresignedUploadResponse:
+      type: object
+      additionalProperties: false
+      required: [data]
+      properties:
+        data:
+          type: object
+          additionalProperties: false
+          required: [uploadId, uploadUrl, storageKey, publicUrl, expiresAt]
+          properties:
+            uploadId:
+              type: string
+              format: uuid
+            uploadUrl:
+              type: string
+            storageKey:
+              type: string
+            publicUrl:
+              type: string
+            expiresAt:
+              type: string
+              format: date-time
+
+    ConfirmMediaUploadRequest:
+      type: object
+      additionalProperties: false
+      required: [uploadId, productId, mediaType]
+      properties:
+        uploadId:
+          type: string
+          format: uuid
+        productId:
+          type: string
+          format: uuid
+        mediaType:
+          $ref: '#/components/schemas/MediaType'
+        altText:
+          type: string
+          maxLength: 180
+          nullable: true
+        sortOrder:
+          type: integer
+          minimum: 0
+          default: 0
+        isPrimary:
+          type: boolean
+          default: false
+
+    ReorderMediaRequest:
+      type: object
+      additionalProperties: false
+      required: [items]
+      properties:
+        items:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            additionalProperties: false
+            required: [mediaId, sortOrder]
+            properties:
+              mediaId:
+                type: string
+                format: uuid
+              sortOrder:
+                type: integer
+                minimum: 0
+
+    CreateInquiryRequest:
+      type: object
+      additionalProperties: false
+      required: [message, inquiryType]
+      properties:
+        productId:
+          type: string
+          format: uuid
+          nullable: true
+        name:
+          type: string
+          maxLength: 120
+          nullable: true
+        phone:
+          type: string
+          maxLength: 30
+          nullable: true
+        zalo:
+          type: string
+          maxLength: 80
+          nullable: true
+        facebook:
+          type: string
+          maxLength: 255
+          nullable: true
+        message:
+          type: string
+          minLength: 1
+          maxLength: 2000
+        inquiryType:
+          $ref: '#/components/schemas/InquiryType'
+        sourcePage:
+          type: string
+          maxLength: 500
+          nullable: true
+
+    Inquiry:
+      allOf:
+        - $ref: '#/components/schemas/CreateInquiryRequest'
+        - type: object
+          additionalProperties: false
+          required: [id, status, createdAt]
+          properties:
+            id:
+              type: string
+              format: uuid
+            status:
+              $ref: '#/components/schemas/InquiryStatus'
+            createdAt:
+              type: string
+              format: date-time
+
+    InquiryResponse:
+      type: object
+      additionalProperties: false
+      required: [data]
+      properties:
+        data:
+          $ref: '#/components/schemas/Inquiry'
+
+    InquiryListResponse:
+      type: object
+      additionalProperties: false
+      required: [data, meta]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Inquiry'
+        meta:
+          $ref: '#/components/schemas/PageMeta'
+
+    AdminLoginRequest:
+      type: object
+      additionalProperties: false
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+          minLength: 8
+
+    AdminUser:
+      type: object
+      additionalProperties: false
+      required: [id, email]
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        displayName:
+          type: string
+          nullable: true
+
+    AdminUserResponse:
+      type: object
+      additionalProperties: false
+      required: [data]
+      properties:
+        data:
+          type: object
+          additionalProperties: false
+          required: [user]
+          properties:
+            user:
+              $ref: '#/components/schemas/AdminUser'
