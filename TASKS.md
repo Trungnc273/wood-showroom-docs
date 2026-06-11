@@ -83,8 +83,8 @@ Unassigned
 | BE-CAT-01A | Implement Category DTOs | api | API_SPEC.md, openapi.yaml | BE-DB-06 | Create/update category DTOs validate name, slug, sortOrder, isActive | DONE | Backend Agent |
 | BE-CAT-01B | Implement CategoriesRepository/Service | api | DATA_MODEL.md | BE-CAT-01A | Active categories returned publicly; admin can manage all categories | DONE | Backend Agent |
 | BE-CAT-01C | Implement public/admin category controllers | api | API_SPEC.md, openapi.yaml | BE-CAT-01B | Public GET categories and admin CRUD endpoints work | DONE | Backend Agent |
-| BE-INQ-01 | Implement public inquiry creation API | api | API_SPEC.md | BE-DB-06 | `POST /contact-inquiries` validates message/inquiryType/contact info | TODO | Backend Agent |
-| BE-INQ-02 | Implement admin inquiry list/status APIs | api | API_SPEC.md, openapi.yaml | BE-INQ-01 | Admin can list inquiries with pagination and PATCH status with CSRF | TODO | Backend Agent |
+| BE-INQ-01 | Implement public inquiry creation API | api | API_SPEC.md | BE-DB-06 | `POST /contact-inquiries` validates message/inquiryType/contact info | DONE | Backend Agent |
+| BE-INQ-02 | Implement admin inquiry list/status APIs | api | API_SPEC.md, openapi.yaml | BE-INQ-01 | Admin can list inquiries with pagination and PATCH status with CSRF | DONE | Backend Agent |
 
 ---
 
