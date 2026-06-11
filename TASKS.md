@@ -60,13 +60,13 @@ Unassigned
 
 | ID | Task | Repo | Docs/ADR | Dependencies | Acceptance Criteria | Status | Owner |
 |---|---|---|---|---|---|---|---|
-| BE-DB-01 | Setup Prisma and PostgreSQL connection | api | DATA_MODEL.md, ADR-001 | API-SETUP-01 | Prisma connects; PrismaClient singleton provider exists | TODO | Backend Agent |
-| BE-DB-02 | Define enum types in Prisma schema | api | DATA_MODEL.md | BE-DB-01 | ProductType only has `made_to_order`, `ready_stock`; other enums match docs | TODO | Backend Agent |
-| BE-DB-03 | Define Category and Product schema | api | DATA_MODEL.md | BE-DB-02 | Product has no `dimensions`; material indexed; specs_json exists; category FK exists | TODO | Backend Agent |
-| BE-DB-04 | Define ProductMedia schema | api | DATA_MODEL.md, ADR-003 | BE-DB-03 | Media metadata table exists; no binary fields | TODO | Backend Agent |
-| BE-DB-05 | Define AdminUser and Inquiry schema | api | DATA_MODEL.md | BE-DB-03 | Admin and inquiry tables exist | TODO | Backend Agent |
-| BE-DB-06 | Create and run initial migration | api | CI_CD.md | BE-DB-05 | Migration runs locally; `prisma migrate deploy` path documented | TODO | Backend Agent |
-| BE-DB-07 | Create development seed script | api | DATA_MODEL.md | BE-DB-06 | `npx prisma db seed` creates 1 admin, 3-5 categories, sample products for both product types | TODO | Backend Agent |
+| BE-DB-01 | Setup Prisma and PostgreSQL connection | api | DATA_MODEL.md, ADR-001 | API-SETUP-01 | Prisma connects; PrismaClient singleton provider exists | DONE | Backend Agent |
+| BE-DB-02 | Define enum types in Prisma schema | api | DATA_MODEL.md | BE-DB-01 | ProductType only has `made_to_order`, `ready_stock`; other enums match docs | DONE | Backend Agent |
+| BE-DB-03 | Define Category and Product schema | api | DATA_MODEL.md | BE-DB-02 | Product has no `dimensions`; material indexed; specs_json exists; category FK exists | DONE | Backend Agent |
+| BE-DB-04 | Define ProductMedia schema | api | DATA_MODEL.md, ADR-003 | BE-DB-03 | Media metadata table exists; no binary fields | DONE | Backend Agent |
+| BE-DB-05 | Define AdminUser and Inquiry schema | api | DATA_MODEL.md | BE-DB-03 | Admin and inquiry tables exist | DONE | Backend Agent |
+| BE-DB-06 | Create and run initial migration | api | CI_CD.md | BE-DB-05 | Migration runs locally; `prisma migrate deploy` path documented | DONE | Backend Agent |
+| BE-DB-07 | Create development seed script | api | DATA_MODEL.md | BE-DB-06 | `npx prisma db seed` creates 1 admin, 3-5 categories, sample products for both product types | DONE | Backend Agent |
 
 ---
 
