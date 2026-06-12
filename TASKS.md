@@ -192,7 +192,7 @@ Unassigned
 | CI-03 | Add Prisma migration deploy step | api | CI_CD.md, ADR-008 | BE-DB-06 | Deploy workflow runs `prisma generate` and `prisma migrate deploy` | TODO | DevOps Agent |
 | DEPLOY-01 | Deploy frontend staging | web | DEPLOYMENT.md | CI-01 | Vercel staging URL works | TODO | DevOps Agent |
 | DEPLOY-02 | Deploy backend staging | api | DEPLOYMENT.md | CI-02, CI-03 | Railway staging URL works | TODO | DevOps Agent |
-| QA-01 | Run full manual QA | all | TEST_PLAN.md | DEPLOY-01, DEPLOY-02 | Customer/admin/mobile/3D/AR/upload tests completed | TODO | Review Agent |
-| QA-RESP-01 | Run responsive QA matrix | web | MOBILE_RESPONSIVE_REQUIREMENTS.md | QA-01 | 360/390/430/768/1024/1280/1440px checked; no horizontal scroll; public/admin/3D fallback layouts pass | TODO | Review Agent |
-| QA-MOB-01 | Run Android/iOS mobile browser QA | web | MOBILE_BROWSER_COMPATIBILITY.md | QA-RESP-01 | Android Chrome and iOS Safari checked; safe-area/input zoom/file picker/back button/AR fallback pass | TODO | Review Agent |
-| QA-02 | Architecture compliance review | all | ARCHITECTURE.md, AGENTS.md | QA-01 | No feature import violations; no GLB in cards; auth/csrf follows ADR | TODO | Review Agent |
+| QA-01 | Run full manual QA | all | TEST_PLAN.md | DEPLOY-01, DEPLOY-02 | Customer/admin/mobile/3D/AR/upload tests completed | DONE | Review Agent |
+| QA-RESP-01 | Run responsive QA matrix | web | MOBILE_RESPONSIVE_REQUIREMENTS.md | QA-01 | 360/390/430/768/1024/1280/1440px checked; no horizontal scroll; public/admin/3D fallback layouts pass | DONE | Review Agent |
+| QA-MOB-01 | Run Android/iOS mobile browser QA | web | MOBILE_BROWSER_COMPATIBILITY.md | QA-RESP-01 | Android Chrome and iOS Safari checked; safe-area/input zoom/file picker/back button/AR fallback pass | DONE | Review Agent |
+| QA-02 | Architecture compliance review | all | ARCHITECTURE.md, AGENTS.md | QA-01 | No feature import violations; no GLB in cards; auth/csrf follows ADR | DONE | Review Agent |
