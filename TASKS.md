@@ -162,22 +162,22 @@ Unassigned
 
 | ID | Task | Repo | Docs/ADR | Dependencies | Acceptance Criteria | Status | Owner |
 |---|---|---|---|---|---|---|---|
-| FE-ADMIN-01 | Implement admin route group/layout | web | ARCHITECTURE.md, LANGUAGE_POLICY.md, MOBILE_RESPONSIVE_REQUIREMENTS.md, MOBILE_BROWSER_COMPATIBILITY.md | FE-MOB-01 | `(admin)` routes and protected layout exist | TODO | Frontend Agent |
-| FE-ADMIN-02 | Implement shared admin API client | web | ADR-005, ADR-007 | FE-ADMIN-01 | Same-origin `/api/v1` calls; CSRF header injection; global 401 redirect | TODO | Frontend Agent |
-| FE-ADMIN-03 | Implement login/session check | web | ADR-005, API_SPEC.md | FE-ADMIN-02 | Login works; `/admin/auth/me` used on reload; no localStorage token | TODO | Frontend Agent |
-| FE-ADMIN-04 | Setup TanStack Query for admin | web | ADR-007 | FE-ADMIN-02 | QueryClientProvider exists; admin data cached/refetched | TODO | Frontend Agent |
-| FE-ADMIN-05 | Implement admin product list | web | API_SPEC.md | FE-ADMIN-04 | List/filter product admin view works | TODO | Frontend Agent |
-| FE-ADMIN-06A | Implement admin product base form | web | DATA_MODEL.md | FE-ADMIN-05 | Supports name, slug, type, category, status, material, price | TODO | Frontend Agent |
-| FE-ADMIN-06B | Implement strict specs sub-form | web | DATA_MODEL.md | FE-ADMIN-06A | Supports numeric specs + finish/color_note; invalid values blocked | TODO | Frontend Agent |
-| FE-ADMIN-07 | Implement product create/PATCH mutations | web | API_SPEC.md | FE-ADMIN-06B | Uses TanStack mutations; handles validation/slug conflict errors | TODO | Frontend Agent |
-| FE-ADMIN-08 | Implement admin category management UI | web | API_SPEC.md | FE-ADMIN-04 | Admin can list/create/update/deactivate categories | TODO | Frontend Agent |
-| FE-ADMIN-09 | Implement admin inquiry list | web | API_SPEC.md | FE-ADMIN-04 | Admin can view inquiry list with status/date/message preview | TODO | Frontend Agent |
-| FE-ADMIN-10 | Implement admin inquiry status update | web | API_SPEC.md | FE-ADMIN-09 | Admin can change inquiry status using mutation + CSRF | TODO | Frontend Agent |
-| FE-MEDIA-01 | Implement pre-upload client validation | web | ASSET_STORAGE_STRATEGY.md | FE-ADMIN-06A | Checks extension and size before presigned call; GLB <30MB, USDZ <50MB, image <5MB; toast and abort on fail | TODO | Frontend Agent |
-| FE-MEDIA-02 | Implement media upload with presigned URL | web | ADR-003, API_SPEC.md | FE-MEDIA-01 | Uploads directly to R2 using presigned URL | TODO | Frontend Agent |
-| FE-MEDIA-03 | Implement media confirm call | web | ADR-003, API_SPEC.md | FE-MEDIA-02 | Calls `/api/v1/admin/media/confirm` after upload success | TODO | Frontend Agent |
-| FE-MEDIA-04 | Implement media manager UI | web | SPEC.md | FE-MEDIA-03 | Delete/set primary image works | TODO | Frontend Agent |
-| FE-MEDIA-05 | Implement media reorder UI | web | API_SPEC.md | FE-MEDIA-04 | Drag/reorder or manual reorder calls reorder endpoint | TODO | Frontend Agent |
+| FE-ADMIN-01 | Implement admin route group/layout | web | ARCHITECTURE.md, LANGUAGE_POLICY.md, MOBILE_RESPONSIVE_REQUIREMENTS.md, MOBILE_BROWSER_COMPATIBILITY.md | FE-MOB-01 | `(admin)` routes and protected layout exist | DONE | Frontend Agent |
+| FE-ADMIN-02 | Implement shared admin API client | web | ADR-005, ADR-007 | FE-ADMIN-01 | Same-origin `/api/v1` calls; CSRF header injection; global 401 redirect | DONE | Frontend Agent |
+| FE-ADMIN-03 | Implement login/session check | web | ADR-005, API_SPEC.md | FE-ADMIN-02 | Login works; `/admin/auth/me` used on reload; no localStorage token | DONE | Frontend Agent |
+| FE-ADMIN-04 | Setup TanStack Query for admin | web | ADR-007 | FE-ADMIN-02 | QueryClientProvider exists; admin data cached/refetched | DONE | Frontend Agent |
+| FE-ADMIN-05 | Implement admin product list | web | API_SPEC.md | FE-ADMIN-04 | List/filter product admin view works | DONE | Frontend Agent |
+| FE-ADMIN-06A | Implement admin product base form | web | DATA_MODEL.md | FE-ADMIN-05 | Supports name, slug, type, category, status, material, price | DONE | Frontend Agent |
+| FE-ADMIN-06B | Implement strict specs sub-form | web | DATA_MODEL.md | FE-ADMIN-06A | Supports numeric specs + finish/color_note; invalid values blocked | DONE | Frontend Agent |
+| FE-ADMIN-07 | Implement product create/PATCH mutations | web | API_SPEC.md | FE-ADMIN-06B | Uses TanStack mutations; handles validation/slug conflict errors | DONE | Frontend Agent |
+| FE-ADMIN-08 | Implement admin category management UI | web | API_SPEC.md | FE-ADMIN-04 | Admin can list/create/update/deactivate categories | DONE | Frontend Agent |
+| FE-ADMIN-09 | Implement admin inquiry list | web | API_SPEC.md | FE-ADMIN-04 | Admin can view inquiry list with status/date/message preview | DONE | Frontend Agent |
+| FE-ADMIN-10 | Implement admin inquiry status update | web | API_SPEC.md | FE-ADMIN-09 | Admin can change inquiry status using mutation + CSRF | DONE | Frontend Agent |
+| FE-MEDIA-01 | Implement pre-upload client validation | web | ASSET_STORAGE_STRATEGY.md | FE-ADMIN-06A | Checks extension and size before presigned call; GLB <30MB, USDZ <50MB, image <5MB; toast and abort on fail | DONE | Frontend Agent |
+| FE-MEDIA-02 | Implement media upload with presigned URL | web | ADR-003, API_SPEC.md | FE-MEDIA-01 | Uploads directly to R2 using presigned URL | DONE | Frontend Agent |
+| FE-MEDIA-03 | Implement media confirm call | web | ADR-003, API_SPEC.md | FE-MEDIA-02 | Calls `/api/v1/admin/media/confirm` after upload success | DONE | Frontend Agent |
+| FE-MEDIA-04 | Implement media manager UI | web | SPEC.md | FE-MEDIA-03 | Delete/set primary image works | DONE | Frontend Agent |
+| FE-MEDIA-05 | Implement media reorder UI | web | API_SPEC.md | FE-MEDIA-04 | Drag/reorder or manual reorder calls reorder endpoint | DONE | Frontend Agent |
 
 ---
 
