@@ -92,12 +92,12 @@ Unassigned
 
 | ID | Task | Repo | Docs/ADR | Dependencies | Acceptance Criteria | Status | Owner |
 |---|---|---|---|---|---|---|---|
-| BE-AUTH-01 | Implement CSRF bootstrap endpoint | api | ADR-005, openapi.yaml | API-SETUP-02 | `GET /admin/auth/csrf` sets readable `csrf-token` cookie | TODO | Backend Agent |
-| BE-AUTH-02 | Implement admin login with HttpOnly cookie | api | ADR-005 | BE-AUTH-01, BE-DB-07 | Login sets HttpOnly Secure SameSite cookie; no token in response body | TODO | Backend Agent |
-| BE-AUTH-03 | Implement current admin endpoint | api | API_SPEC.md, openapi.yaml | BE-AUTH-02 | `GET /admin/auth/me` returns current user or 401 | TODO | Backend Agent |
-| BE-AUTH-04 | Implement logout and admin auth guard | api | ADR-005 | BE-AUTH-03 | Admin APIs reject unauthenticated requests; logout clears cookie | TODO | Backend Agent |
-| BE-AUTH-05 | Implement CSRF validation for mutations | api | ADR-005 | BE-AUTH-04 | Admin POST/PATCH/DELETE require valid `X-CSRF-Token` | TODO | Backend Agent |
-| BE-SEC-01 | Implement standard error response | api | AGENTS.md, API_SPEC.md | API-SETUP-02 | All errors follow `{ error: { code, message, details } }` | TODO | Backend Agent |
+| BE-AUTH-01 | Implement CSRF bootstrap endpoint | api | ADR-005, openapi.yaml | API-SETUP-02 | `GET /admin/auth/csrf` sets readable `csrf-token` cookie | DONE | Backend Agent |
+| BE-AUTH-02 | Implement admin login with HttpOnly cookie | api | ADR-005 | BE-AUTH-01, BE-DB-07 | Login sets HttpOnly Secure SameSite cookie; no token in response body | DONE | Backend Agent |
+| BE-AUTH-03 | Implement current admin endpoint | api | API_SPEC.md, openapi.yaml | BE-AUTH-02 | `GET /admin/auth/me` returns current user or 401 | DONE | Backend Agent |
+| BE-AUTH-04 | Implement logout and admin auth guard | api | ADR-005 | BE-AUTH-03 | Admin APIs reject unauthenticated requests; logout clears cookie | DONE | Backend Agent |
+| BE-AUTH-05 | Implement CSRF validation for mutations | api | ADR-005 | BE-AUTH-04 | Admin POST/PATCH/DELETE require valid `X-CSRF-Token` | DONE | Backend Agent |
+| BE-SEC-01 | Implement standard error response | api | AGENTS.md, API_SPEC.md | API-SETUP-02 | All errors follow `{ error: { code, message, details } }` | DONE | Backend Agent |
 | BE-SEC-02 | Add in-memory secondary rate limit | api | ADR-006, ADR-008 | BE-AUTH-02 | Login/contact/upload endpoints have basic in-memory protection | TODO | Backend Agent |
 
 ---
