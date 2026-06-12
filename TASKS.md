@@ -120,19 +120,19 @@ Unassigned
 
 | ID | Task | Repo | Docs/ADR | Dependencies | Acceptance Criteria | Status | Owner |
 |---|---|---|---|---|---|---|---|
-| FE-UI-01 | Implement design tokens and base UI | web | DESIGN_TOKENS.md, SPEC.md | WEB-SETUP-02 | Tailwind brand palette, Vietnamese-friendly font stack, spacing/radius/shadow tokens, button/input/card components exist and are reviewed by Human | TODO | Frontend Agent |
-| FE-LANG-01 | Implement Vietnamese UI language mapping | web | LANGUAGE_POLICY.md, SPEC.md | FE-UI-01 | Product type/status/price labels, validation messages, CTA copy, admin labels, and 3D/AR fallback copy are Vietnamese | TODO | Frontend Agent |
-| FE-RESP-01 | Implement mobile-first responsive foundation | web | MOBILE_RESPONSIVE_REQUIREMENTS.md, DESIGN_TOKENS.md | FE-LANG-01 | Base layout supports 360/390/430/768/1024/1280/1440px; no horizontal scroll; spacing/container/grid utilities are mobile-first | TODO | Frontend Agent |
-| FE-MOB-01 | Implement Android/iOS mobile browser compatibility foundation | web | MOBILE_BROWSER_COMPATIBILITY.md, MOBILE_RESPONSIVE_REQUIREMENTS.md | FE-RESP-01 | iOS safe-area utilities, 16px mobile input font, mobile file picker compatibility, non-hover actions, modal/back behavior guidance implemented | TODO | Frontend Agent |
-| FE-PUBLIC-01 | Implement public layout/header/footer | web | SPEC.md, LANGUAGE_POLICY.md, MOBILE_RESPONSIVE_REQUIREMENTS.md, MOBILE_BROWSER_COMPATIBILITY.md | FE-MOB-01 | Mobile-first layout; no admin imports | TODO | Frontend Agent |
-| FE-PUBLIC-02A | Implement homepage hero section | web | SPEC.md | FE-PUBLIC-01 | Premium hero with CTA exists; responsive mobile/desktop | TODO | Frontend Agent |
-| FE-PUBLIC-02B | Implement homepage featured products section | web | SPEC.md, API_SPEC.md | FE-PROD-01 | Featured products use product card; no GLB | TODO | Frontend Agent |
-| FE-PUBLIC-02C | Implement homepage product type sections | web | SPEC.md | FE-PUBLIC-02B | Sections/tabs for `made_to_order` and `ready_stock` exist | TODO | Frontend Agent |
-| FE-PUBLIC-02D | Implement homepage trust/workshop section | web | SPEC.md | FE-PUBLIC-02A | Workshop intro, trust signals, contact CTA exist | TODO | Frontend Agent |
-| FE-PROD-01 | Implement product card | web | PERFORMANCE_BUDGET.md, LANGUAGE_POLICY.md, MOBILE_RESPONSIVE_REQUIREMENTS.md, MOBILE_BROWSER_COMPATIBILITY.md | FE-MOB-01 | Card uses thumbnail only; no model-viewer/GLB/USDZ | TODO | Frontend Agent |
-| FE-PROD-02 | Implement catalogue page | web | API_SPEC.md | FE-PROD-01 | Filter by product type/category works | TODO | Frontend Agent |
-| FE-PROD-03 | Implement product detail page | web | SPEC.md, API_SPEC.md | FE-PROD-02 | Gallery/specs/category/contact show; no 3D until click | TODO | Frontend Agent |
-| FE-CONTACT-01 | Implement contact CTA/form | web | SPEC.md, API_SPEC.md | FE-PROD-03 | Zalo/Facebook/Phone/form flow works | TODO | Frontend Agent |
+| FE-UI-01 | Implement design tokens and base UI | web | DESIGN_TOKENS.md, SPEC.md | WEB-SETUP-02 | Tailwind brand palette, Vietnamese-friendly font stack, spacing/radius/shadow tokens, button/input/card components exist and are reviewed by Human | DONE | Frontend Agent |
+| FE-LANG-01 | Implement Vietnamese UI language mapping | web | LANGUAGE_POLICY.md, SPEC.md | FE-UI-01 | Product type/status/price labels, validation messages, CTA copy, admin labels, and 3D/AR fallback copy are Vietnamese | DONE | Frontend Agent |
+| FE-RESP-01 | Implement mobile-first responsive foundation | web | MOBILE_RESPONSIVE_REQUIREMENTS.md, DESIGN_TOKENS.md | FE-LANG-01 | Base layout supports 360/390/430/768/1024/1280/1440px; no horizontal scroll; spacing/container/grid utilities are mobile-first | DONE | Frontend Agent |
+| FE-MOB-01 | Implement Android/iOS mobile browser compatibility foundation | web | MOBILE_BROWSER_COMPATIBILITY.md, MOBILE_RESPONSIVE_REQUIREMENTS.md | FE-RESP-01 | iOS safe-area utilities, 16px mobile input font, mobile file picker compatibility, non-hover actions, modal/back behavior guidance implemented | DONE | Frontend Agent |
+| FE-PUBLIC-01 | Implement public layout/header/footer | web | SPEC.md, LANGUAGE_POLICY.md, MOBILE_RESPONSIVE_REQUIREMENTS.md, MOBILE_BROWSER_COMPATIBILITY.md | FE-MOB-01 | Mobile-first layout; no admin imports | DONE | Frontend Agent |
+| FE-PUBLIC-02A | Implement homepage hero section | web | SPEC.md | FE-PUBLIC-01 | Premium hero with CTA exists; responsive mobile/desktop | DONE | Frontend Agent |
+| FE-PUBLIC-02B | Implement homepage featured products section | web | SPEC.md, API_SPEC.md | FE-PROD-01 | Featured products use product card; no GLB | DONE | Frontend Agent |
+| FE-PUBLIC-02C | Implement homepage product type sections | web | SPEC.md | FE-PUBLIC-02B | Sections/tabs for `made_to_order` and `ready_stock` exist | DONE | Frontend Agent |
+| FE-PUBLIC-02D | Implement homepage trust/workshop section | web | SPEC.md | FE-PUBLIC-02A | Workshop intro, trust signals, contact CTA exist | DONE | Frontend Agent |
+| FE-PROD-01 | Implement product card | web | PERFORMANCE_BUDGET.md, LANGUAGE_POLICY.md, MOBILE_RESPONSIVE_REQUIREMENTS.md, MOBILE_BROWSER_COMPATIBILITY.md | FE-MOB-01 | Card uses thumbnail only; no model-viewer/GLB/USDZ | DONE | Frontend Agent |
+| FE-PROD-02 | Implement catalogue page | web | API_SPEC.md | FE-PROD-01 | Filter by product type/category works | DONE | Frontend Agent |
+| FE-PROD-03 | Implement product detail page | web | SPEC.md, API_SPEC.md | FE-PROD-02 | Gallery/specs/category/contact show; no 3D until click | DONE | Frontend Agent |
+| FE-CONTACT-01 | Implement contact CTA/form | web | SPEC.md, API_SPEC.md | FE-PROD-03 | Zalo/Facebook/Phone/form flow works | DONE | Frontend Agent |
 
 ---
 
@@ -140,10 +140,10 @@ Unassigned
 
 | ID | Task | Repo | Docs/ADR | Dependencies | Acceptance Criteria | Status | Owner |
 |---|---|---|---|---|---|---|---|
-| FE-SEO-01 | Implement product page metadata | web | SEO_STRATEGY.md, SPEC.md | FE-PROD-03 | Product detail renders title, meta description, OG image from product data | TODO | Frontend Agent |
-| FE-SEO-02 | Implement sitemap.xml | web | SEO_STRATEGY.md | FE-PROD-02 | `/sitemap.xml` includes published product URLs `/san-pham/{slug}` | TODO | Frontend Agent |
-| FE-SEO-03 | Implement robots.txt | web | SEO_STRATEGY.md | WEB-SETUP-01 | `/robots.txt` disallows `/admin/`, allows public pages, references sitemap | TODO | Frontend Agent |
-| FE-SEO-04 | Verify server-side rendering for product pages | web | SEO_STRATEGY.md | FE-PROD-03 | Product detail HTML includes product name/description/specs in initial response | TODO | Frontend Agent |
+| FE-SEO-01 | Implement product page metadata | web | SEO_STRATEGY.md, SPEC.md | FE-PROD-03 | Product detail renders title, meta description, OG image from product data | DONE | Frontend Agent |
+| FE-SEO-02 | Implement sitemap.xml | web | SEO_STRATEGY.md | FE-PROD-02 | `/sitemap.xml` includes published product URLs `/san-pham/{slug}` | DONE | Frontend Agent |
+| FE-SEO-03 | Implement robots.txt | web | SEO_STRATEGY.md | WEB-SETUP-01 | `/robots.txt` disallows `/admin/`, allows public pages, references sitemap | DONE | Frontend Agent |
+| FE-SEO-04 | Verify server-side rendering for product pages | web | SEO_STRATEGY.md | FE-PROD-03 | Product detail HTML includes product name/description/specs in initial response | DONE | Frontend Agent |
 
 ---
 
@@ -151,10 +151,10 @@ Unassigned
 
 | ID | Task | Repo | Docs/ADR | Dependencies | Acceptance Criteria | Status | Owner |
 |---|---|---|---|---|---|---|---|
-| FE-3D-01 | Add `model-viewer` integration shell | web | ADR-004 | FE-PROD-03 | Viewer is dynamically/lazily loaded only after user click | TODO | Frontend Agent |
-| FE-3D-02 | Implement `ModelViewerBoundary` | web | SPEC.md, PERFORMANCE_BUDGET.md, ADR-004 | FE-3D-01 | Wraps model-viewer; timeout exactly 15s; fallback 2D image + contact CTA; no infinite loading | TODO | Frontend Agent |
-| FE-3D-03 | Implement AR launcher/fallback | web | ADR-004 | FE-3D-02 | AR opens if supported; unsupported devices see friendly fallback | TODO | Frontend Agent |
-| FE-3D-04 | Add 3D/AR client state with Zustand | web | ADR-007 | FE-3D-02 | Modal/viewer/gallery state is local/lightweight; no Redux | TODO | Frontend Agent |
+| FE-3D-01 | Add `model-viewer` integration shell | web | ADR-004 | FE-PROD-03 | Viewer is dynamically/lazily loaded only after user click | DONE | Frontend Agent |
+| FE-3D-02 | Implement `ModelViewerBoundary` | web | SPEC.md, PERFORMANCE_BUDGET.md, ADR-004 | FE-3D-01 | Wraps model-viewer; timeout exactly 15s; fallback 2D image + contact CTA; no infinite loading | DONE | Frontend Agent |
+| FE-3D-03 | Implement AR launcher/fallback | web | ADR-004 | FE-3D-02 | AR opens if supported; unsupported devices see friendly fallback | DONE | Frontend Agent |
+| FE-3D-04 | Add 3D/AR client state with Zustand | web | ADR-007 | FE-3D-02 | Modal/viewer/gallery state is local/lightweight; no Redux | DONE | Frontend Agent |
 
 ---
 
