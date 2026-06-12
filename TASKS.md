@@ -106,13 +106,13 @@ Unassigned
 
 | ID | Task | Repo | Docs/ADR | Dependencies | Acceptance Criteria | Status | Owner |
 |---|---|---|---|---|---|---|---|
-| BE-MEDIA-01A | Setup R2 client service | api | ADR-003, ASSET_STORAGE_STRATEGY.md | API-SETUP-02 | R2 client configured with env only; no secrets exposed | TODO | Backend Agent |
-| BE-MEDIA-01B | Implement media file validation service | api | ASSET_STORAGE_STRATEGY.md | BE-MEDIA-01A | Validates extension, MIME, size, mediaType | TODO | Backend Agent |
-| BE-MEDIA-01C | Implement presigned upload API with retry | api | ASSET_STORAGE_STRATEGY.md | BE-MEDIA-01B | Retries transient R2 errors 3 times; returns 503 on failure | TODO | Backend Agent |
-| BE-MEDIA-01D | Implement pending upload ID flow | api | ADR-003 | BE-MEDIA-01C | Presigned response includes uploadId and pending storageKey | TODO | Backend Agent |
-| BE-MEDIA-01E | Implement media confirm API | api | ADR-003, API_SPEC.md | BE-MEDIA-01D | Confirm creates product_media metadata only after upload success | TODO | Backend Agent |
-| BE-MEDIA-01F | Implement media reorder API | api | API_SPEC.md, openapi.yaml | BE-MEDIA-01E | `PATCH /admin/products/:id/media/reorder` updates sortOrder safely | TODO | Backend Agent |
-| BE-MEDIA-01G | Implement media delete/archive API | api | API_SPEC.md | BE-MEDIA-01E | DB metadata delete/archive works; R2 cleanup behavior documented | TODO | Backend Agent |
+| BE-MEDIA-01A | Setup R2 client service | api | ADR-003, ASSET_STORAGE_STRATEGY.md | API-SETUP-02 | R2 client configured with env only; no secrets exposed | DONE | Backend Agent |
+| BE-MEDIA-01B | Implement media file validation service | api | ASSET_STORAGE_STRATEGY.md | BE-MEDIA-01A | Validates extension, MIME, size, mediaType | DONE | Backend Agent |
+| BE-MEDIA-01C | Implement presigned upload API with retry | api | ASSET_STORAGE_STRATEGY.md | BE-MEDIA-01B | Retries transient R2 errors 3 times; returns 503 on failure | DONE | Backend Agent |
+| BE-MEDIA-01D | Implement pending upload ID flow | api | ADR-003 | BE-MEDIA-01C | Presigned response includes uploadId and pending storageKey | DONE | Backend Agent |
+| BE-MEDIA-01E | Implement media confirm API | api | ADR-003, API_SPEC.md | BE-MEDIA-01D | Confirm creates product_media metadata only after upload success | DONE | Backend Agent |
+| BE-MEDIA-01F | Implement media reorder API | api | API_SPEC.md, openapi.yaml | BE-MEDIA-01E | `PATCH /admin/products/:id/media/reorder` updates sortOrder safely | DONE | Backend Agent |
+| BE-MEDIA-01G | Implement media delete/archive API | api | API_SPEC.md | BE-MEDIA-01E | DB metadata delete/archive works; R2 cleanup behavior documented | DONE | Backend Agent |
 
 ---
 
