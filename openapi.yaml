@@ -828,6 +828,48 @@ components:
         total:
           type: integer
 
+    ProductSpecItem:
+      type: object
+      additionalProperties: false
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 120
+        quantity:
+          type: integer
+          minimum: 1
+          nullable: true
+        width_cm:
+          type: number
+          minimum: 0
+          nullable: true
+        height_cm:
+          type: number
+          minimum: 0
+          nullable: true
+        depth_cm:
+          type: number
+          minimum: 0
+          nullable: true
+        seat_height_cm:
+          type: number
+          minimum: 0
+          nullable: true
+        weight_kg:
+          type: number
+          minimum: 0
+          nullable: true
+        finish:
+          type: string
+          maxLength: 120
+          nullable: true
+        color_note:
+          type: string
+          maxLength: 180
+          nullable: true
+
     ProductSpecs:
       type: object
       additionalProperties: false
@@ -860,6 +902,13 @@ components:
           type: string
           maxLength: 180
           nullable: true
+        items:
+          type: array
+          maxItems: 20
+          nullable: true
+          description: Danh sách món trong bộ sản phẩm (product set), ví dụ bàn + ghế.
+          items:
+            $ref: '#/components/schemas/ProductSpecItem'
 
     Category:
       type: object

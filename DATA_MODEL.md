@@ -178,9 +178,54 @@ seat_height_cm: optional number
 weight_kg: optional number
 finish: optional string
 color_note: optional string
+items: optional array of set items (max 20)
 ```
 
-Nested unknown objects are not allowed in Phase 1.
+### Product set items (`specs_json.items`)
+
+A product may be a set (e.g. table + chairs). `items` is an optional array
+describing per-item specs. Flat specs above remain valid and unchanged.
+
+```json
+{
+  "width_cm": 120,
+  "finish": "Sơn dầu lau tự nhiên",
+  "items": [
+    {
+      "name": "Bàn",
+      "quantity": 1,
+      "width_cm": 120,
+      "height_cm": 75,
+      "depth_cm": 60,
+      "finish": "Sơn dầu lau tự nhiên"
+    },
+    {
+      "name": "Ghế",
+      "quantity": 4,
+      "width_cm": 45,
+      "height_cm": 85,
+      "depth_cm": 45,
+      "seat_height_cm": 45,
+      "color_note": "Nâu óc chó"
+    }
+  ]
+}
+```
+
+Item rules:
+
+```text
+name: required string (1..120)
+quantity: optional integer >= 1
+width_cm / height_cm / depth_cm / seat_height_cm: optional number >= 0
+weight_kg: optional number >= 0
+finish: optional string (max 120)
+color_note: optional string (max 180)
+```
+
+No DB migration is required: `specs_json` is already `jsonb`.
+
+Other nested unknown objects are not allowed in Phase 1.
 
 Do not use a free-text `dimensions` column.
 
