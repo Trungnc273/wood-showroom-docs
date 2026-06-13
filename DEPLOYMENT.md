@@ -120,3 +120,36 @@ async rewrites() {
 ```
 
 Browser code must never call the Railway backend URL directly.
+
+---
+
+## 8. Local/Staging Docker + Ngrok Runtime Runbook
+
+For local staging or end-to-end testing, the full stack can be run containerized on a unified Docker bridge network with the Next.js port exposed publicly via ngrok over HTTPS.
+
+### Network Configuration
+- **PostgreSQL**: Bound to `127.0.0.1:5432` on the host (private, not exposed publicly).
+- **NestJS API**: Internal container `wood-showroom-api` on port `3001` (private, no host port mapping).
+- **Next.js Web**: Standalone container `wood-showroom-web` on port `3002` (exposed locally to host).
+- **ngrok Tunnel**: Points to `3002` (public HTTPS url). Same-origin relative paths `/api/v1` rewrite proxy requests through the Next.js server to the internal API container.
+
+### Step-by-Step Execution
+
+1. **Build and Run Containers**:
+   ```bash
+   # From root directory:
+   docker compose up -d --build
+   ```
+
+2. **Sync Database Schema & Seed Data** (from Host machine):
+   ```bash
+   cd wood-showroom-api
+   npx prisma migrate deploy
+   npm run seed
+   ```
+
+3. **Expose Public Web Tunnel**:
+   ```bash
+   ngrok http 3002
+   ```
+   *Note: Never commit the ngrok URL or authtokens into the source code.*
